@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 3 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="1200" height="1200" style="border: solid 1px black"></canvas>
+    <script type="module">
+      import * as library from './main2.js';
+      var canvasKita;
+      var ctx;
+      var frameCount = 0;
+      var interval = 500;
+      var red, green, blue;
+      var i = 60;
+      var x, y;
+      var j = 0;
+      var isi;
+
+      var point_array = [
+        { x: 100, y: 1000 },
+        { x: 100, y: 900 },
+        { x: 1100, y: 900 },
+        { x: 1100, y: 1000 },
+      ];
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      function animate() {
+        frameCount++;
+        if (i >= 170) {
+          i = 0;
+        }
+
+        if (j <= 0) {
+          isi = 0;
+        } else if (j >= 1000) {
+          isi = 1;
+        }
+
+        var red = Math.floor(Math.random() * 200) + 1;
+        var green = Math.floor(Math.random() * 200) + 1;
+        var blue = Math.floor(Math.random() * 200) + 1;
+
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height);
+
+        let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+        library.bunga(imageDataSaya, 200, 200, 100, 2, 0, 0, 255);
+        library.bunga(imageDataSaya, 600, 200, 100, 4, 0, 0, 255);
+        library.bunga(imageDataSaya, 1000, 200, 100, 6, 0, 0, 255);
+
+        library.floodFillStack(imageDataSaya, canvasKita, 255, 201, { r: 0, g: 0, b: 0 }, { r: red, g: green, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 120, 201, { r: 0, g: 0, b: 0 }, { r: red + 10, g: green + 20, b: blue + 30 });
+        library.floodFillStack(imageDataSaya, canvasKita, 200, 150, { r: 0, g: 0, b: 0 }, { r: red + 15, g: green + 30, b: blue + 10 });
+        library.floodFillStack(imageDataSaya, canvasKita, 200, 250, { r: 0, g: 0, b: 0 }, { r: red + 30, g: green + 50, b: blue + 20 });
+
+        library.floodFillStack(imageDataSaya, canvasKita, 600, 250, { r: 0, g: 0, b: 0 }, { r: red, g: green + 20, b: blue + 10 });
+        library.floodFillStack(imageDataSaya, canvasKita, 600, 150, { r: 0, g: 0, b: 0 }, { r: red + 30, g: green + 10, b: blue + 20 });
+        library.floodFillStack(imageDataSaya, canvasKita, 650, 150, { r: 0, g: 0, b: 0 }, { r: red + 50, g: green + 20, b: blue + 10 });
+        library.floodFillStack(imageDataSaya, canvasKita, 550, 150, { r: 0, g: 0, b: 0 }, { r: red + 10, g: green + 30, b: blue + 40 });
+        library.floodFillStack(imageDataSaya, canvasKita, 650, 250, { r: 0, g: 0, b: 0 }, { r: red + 12, g: green + 20, b: blue + 10 });
+        library.floodFillStack(imageDataSaya, canvasKita, 550, 250, { r: 0, g: 0, b: 0 }, { r: red + 15, g: green + 10, b: blue + 10 });
+        library.floodFillStack(imageDataSaya, canvasKita, 550, 200, { r: 0, g: 0, b: 0 }, { r: red + 18, g: green + 20, b: blue + 30 });
+        library.floodFillStack(imageDataSaya, canvasKita, 650, 200, { r: 0, g: 0, b: 0 }, { r: red + 21, g: green + 20, b: blue + 10 });
+
+        library.floodFillStack(imageDataSaya, canvasKita, 950, 200, { r: 0, g: 0, b: 0 }, { r: red, g: green + 10, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 1050, 200, { r: 0, g: 0, b: 0 }, { r: red + 3, g: green + 20, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 1000, 150, { r: 0, g: 0, b: 0 }, { r: red + 6, g: green + 30, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 1000, 250, { r: 0, g: 0, b: 0 }, { r: red + 9, g: green + 40, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 1025, 250, { r: 0, g: 0, b: 0 }, { r: red + 12, g: green + 20, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 1025, 150, { r: 0, g: 0, b: 0 }, { r: red + 15, g: green + 30, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 1025, 215, { r: 0, g: 0, b: 0 }, { r: red + 18, g: green + 10, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 1025, 185, { r: 0, g: 0, b: 0 }, { r: red + 21, g: green + 10, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 950, 175, { r: 0, g: 0, b: 0 }, { r: red + 24, g: green + 30, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 975, 150, { r: 0, g: 0, b: 0 }, { r: red + 27, g: green + 20, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 975, 250, { r: 0, g: 0, b: 0 }, { r: red + 30, g: green + 40, b: blue });
+        library.floodFillStack(imageDataSaya, canvasKita, 950, 225, { r: 0, g: 0, b: 0 }, { r: red + 1, g: green + 10, b: blue + 20 });
+
+        library.lingkaranPolar(imageDataSaya, 600, 600, i, 255, 0, 0);
+        library.lingkaranPolar(imageDataSaya, 250, 600, i, 255, 0, 0);
+        library.lingkaranPolar(imageDataSaya, 950, 600, i, 255, 0, 0);
+
+        library.floodFillStack(imageDataSaya, canvasKita, 600, 600, { r: 0, g: 0, b: 0 }, { r: green, g: blue + 10, b: red });
+        library.floodFillStack(imageDataSaya, canvasKita, 250, 600, { r: 0, g: 0, b: 0 }, { r: green, g: green + 150, b: green });
+        library.floodFillStack(imageDataSaya, canvasKita, 950, 600, { r: 0, g: 0, b: 0 }, { r: red, g: blue + 10, b: red });
+        library.floodFillStack(imageDataSaya, canvasKita, 10, 10, { r: 0, g: 0, b: 0 }, { r: 10, g: green + 20, b: blue + 20 });
+
+        library.dda_line(imageDataSaya, 100 + j, 900, 100 + j, 1000, 1, 0, 0);
+        library.polygon(imageDataSaya, point_array, 1, 0, 0);
+
+        if (isi === 0) {
+          j += 100;
+        } else {
+          j -= 100;
+        }
+
+        i = i + 30;
+
+        ctx.putImageData(imageDataSaya, 0, 0);
+
+        setTimeout(function () {
+          requestAnimationFrame(animate);
+        }, interval);
+      }
+
+      animate();
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pertemuan 1</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="canvas1" width="400" height="400"></canvas>
+    <script type="module">
+      var canvasKita; //variabel refer ke canvas yang kita buat
+      var ctx; //variabel refer ke konteks yang kita buat
+
+      // Pembuatan fungsi gambartitik untuk membuat titik berwarna sesuai dengan parameter yang diberikan pada fungsi tersebut
+      function gambartitik(imageDataTemp, x, y, r, g, b) {
+        var index;
+        index = 4 * (x + y * canvasKita.width);
+        imageDataTemp.data[index] = r;
+        imageDataTemp.data[index + 1] = g;
+        imageDataTemp.data[index + 2] = b;
+        imageDataTemp.data[index + 3] = 255;
+      }
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      var imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      // Fungsi untuk menggambar segitiga dengan koordinat titik-titik
+      function gambarSegitiga(x1, y1, x2, y2, x3, y3, r, g, b) {
+        // Hitung bounding box segitiga
+        var minX = Math.min(x1, x2, x3); // Koordinat X terendah dari segitiga
+        var minY = Math.min(y1, y2, y3); // Koordinat Y terendah dari segitiga
+        var maxX = Math.max(x1, x2, x3); // Koordinat X tertinggi dari segitiga
+        var maxY = Math.max(y1, y2, y3); // Koordinat Y tertinggi dari segitiga
+        // Loop melalui bounding box
+        for (var y = minY; y <= maxY; y++) {
+          for (var x = minX; x <= maxX; x++) {
+            if (dalamSegitiga(x, y, x1, y1, x2, y2, x3, y3)) {
+              // Jika titik (x, y) berada dalam segitiga, gambar titik dengan warna (r, g, b)
+              gambartitik(imageDataSaya, x, y, r, g, b);
+            }
+          }
+        }
+      }
+
+      // Fungsi untuk memeriksa apakah titik (x, y) berada dalam segitiga yang didefinisikan oleh tiga titik lainnya
+      function dalamSegitiga(x, y, x1, y1, x2, y2, x3, y3) {
+        // Menggunakan aturan determinan untuk memeriksa keterletakan titik dalam segitiga
+        var detT = (x1 - x) * (y2 - y1) - (x2 - x1) * (y1 - y);
+        var detU = (x2 - x) * (y3 - y2) - (x3 - x2) * (y2 - y);
+        var detV = (x3 - x) * (y1 - y3) - (x1 - x3) * (y3 - y);
+        // Titik berada dalam segitiga jika determinan semua tiga sisi memiliki tanda yang sama
+        return (detT >= 0 && detU >= 0 && detV >= 0) || (detT <= 0 && detU <= 0 && detV <= 0);
+      }
+
+      gambarSegitiga(150, 100, 250, 100, 200, 50, 0, 255, 0); // Menggambar segitiga dengan warna hijau
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

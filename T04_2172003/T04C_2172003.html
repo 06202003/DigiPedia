@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 3 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="1200" height="1200" style="border: solid 1px black"></canvas>
+    <script type="module">
+      import * as library from './main.js';
+      var canvasKita;
+      var ctx;
+      var i = 30;
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      while (i <= 240) {
+        library.lingkaranPolar(imageDataSaya, 600, 600, i, 0, 0, 0);
+        i = i + 30;
+      }
+      library.ellipsePolar(imageDataSaya, 600, 600, 400, 90, 255, 0, 0);
+      library.ellipsePolar(imageDataSaya, 600, 600, 90, 400, 255, 0, 0);
+      library.lingkaranKecil(imageDataSaya, 600, 600, 280, 0, 255, 0);
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

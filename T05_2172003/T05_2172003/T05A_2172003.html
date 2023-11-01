@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 1 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="1200" height="400" style="border: solid 1px black"></canvas>
+    <script type="module">
+      import * as library from './main.js';
+      var canvasKita;
+      var ctx;
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      library.bunga(imageDataSaya, 200, 200, 100, 2, 0, 0, 255);
+      library.bunga(imageDataSaya, 600, 200, 100, 4, 0, 0, 255);
+      library.bunga(imageDataSaya, 1000, 200, 100, 6, 0, 0, 255);
+
+      library.floodFillStack(imageDataSaya, canvasKita, 255, 201, { r: 0, g: 0, b: 0 }, { r: 156, g: 156, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 120, 201, { r: 0, g: 0, b: 0 }, { r: 156, g: 156, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 200, 150, { r: 0, g: 0, b: 0 }, { r: 156, g: 156, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 200, 250, { r: 0, g: 0, b: 0 }, { r: 156, g: 156, b: 255 });
+
+      library.floodFillStack(imageDataSaya, canvasKita, 600, 250, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 600, 150, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 650, 150, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 550, 150, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 650, 250, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 550, 250, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 550, 200, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 650, 200, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+
+      library.floodFillStack(imageDataSaya, canvasKita, 950, 200, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 1050, 200, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 1000, 150, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 1000, 250, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 1025, 250, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 1025, 150, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 1025, 215, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 1025, 185, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 950, 175, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 975, 150, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 975, 250, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+      library.floodFillStack(imageDataSaya, canvasKita, 950, 225, { r: 0, g: 0, b: 0 }, { r: 248, g: 241, b: 255 });
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

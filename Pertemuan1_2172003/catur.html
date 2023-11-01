@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pertemuan 1</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="canvas1" width="400" height="400"></canvas>
+    <script>
+      var canvasKita; //variabel refer ke canvas yang kita buat
+      var ctx; //variabel refer ke konteks yang kita buat
+
+      // Pembuatan fungsi gambartitik untuk membuat titik berwarna sesuai dengan parameter yang
+      // diberikan pada fungsi tersebut
+      function gambartitik(imageDataTemp, x, y, r, g, b) {
+        var index;
+        index = 4 * (x + y * canvasKita.width);
+        imageDataTemp.data[index] = r;
+        imageDataTemp.data[index + 1] = g;
+        imageDataTemp.data[index + 2] = b;
+        imageDataTemp.data[index + 3] = 255;
+      }
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+      var imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+      // fungsi gambarkotak untuk membuat kotak dengan titik dengan warna sesuai dengan parameter
+      function gambarkotak(x, y, width, height, r, g, b) {
+        for (var j = 0; j < height; j++) {
+          for (var i = 0; i < width; i++) {
+            gambartitik(imageDataSaya, x + i, y + j, r, g, b);
+          }
+        }
+      }
+
+       // fungsi gambarCatur untuk membuat kotak catur dengan titik dengan warna sesuai dengan parameter
+      function gambarCatur(tileSize, imageDataSaya, canvasKita) {
+        for (let row = 0; row < canvasKita.height; row += tileSize * 2) {
+          for (let col = 0; col < canvasKita.width; col += tileSize * 2) {
+            gambarkotak(col, row, tileSize, tileSize, 0, 0, 0); //kotak hitam dulu
+            gambarkotak(col + tileSize, row, tileSize, tileSize, 254, 204, 169); //kotak navajowhite kedua
+            gambarkotak(col, row + tileSize, tileSize, tileSize, 254, 204, 169); //kotak navajowhite pertama
+            gambarkotak(col + tileSize, row + tileSize, tileSize, tileSize, 0, 0, 0); //kotak hitam kedua
+          }
+        }
+      }
+      gambarCatur(50, imageDataSaya, canvasKita);
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

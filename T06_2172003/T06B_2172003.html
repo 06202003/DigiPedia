@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 2 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="600" height="600" style="border: solid 1px black"></canvas>
+    <br />
+    <input type="button" value="Reset" id="button" />
+    <script type="module">
+      import * as library from './main.js';
+      import * as transform from './transform.js';
+      var canvasKita;
+      var ctx;
+      var resetini;
+      var point_array = [
+        { x: 0, y: 0 },
+        { x: 100, y: 0 },
+        { x: 100, y: 100 },
+        { x: 0, y: 100 },
+      ];
+
+      canvasKita = document.querySelector('#canvas1');
+      resetini = document.querySelector('#button');
+      ctx = canvasKita.getContext('2d');
+
+      canvasKita.addEventListener('click', function (ev) {
+        var rect = canvasKita.getBoundingClientRect();
+
+        var xa = ev.clientX - rect.left;
+        var ya = ev.clientY - rect.top;
+
+        point_array = [
+          { x: 0 + xa, y: 0 + ya },
+          { x: 100 + xa, y: 0 + ya },
+          { x: 100 + xa, y: 100 + ya },
+          { x: 0 + xa, y: 100 + ya },
+        ];
+
+        console.log(point_array);
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height);
+        var imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+        library.polygon(imageDataSaya, point_array, 1, 1, 1);
+        ctx.putImageData(imageDataSaya, 0, 0);
+      });
+
+      document.onkeydown = function (e) {
+        var moveX = 0;
+        var moveY = 0;
+        var rotation = 0;
+
+    
+        var centerX = (point_array[0].x + point_array[2].x) / 2;
+        var centerY = (point_array[0].y + point_array[2].y) / 2;
+
+        switch (e.keyCode) {
+          case 37: // Left 
+            moveX = -100;
+            break;
+          case 39: // Right 
+            moveX = 100;
+            break;
+          case 38: // Up 
+            rotation = Math.PI / 18;
+            break;
+          case 40: // Down 
+            rotation = -Math.PI / 18;
+            break;
+        }
+
+        if (rotation !== 0) {
+          point_array = transform.rotate_array(point_array, { x: centerX, y: centerY }, rotation);
+        } else {
+          point_array = transform.translasi_array(point_array, { x: moveX, y: moveY });
+        }
+
+        console.log(point_array);
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height);
+        var imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+        library.polygon(imageDataSaya, point_array, 1, 1, 1);
+        ctx.putImageData(imageDataSaya, 0, 0);
+      };
+
+      resetini.addEventListener('click', function (ev) {
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height);
+      });
+    </script>
+  </body>
+</html>

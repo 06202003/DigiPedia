@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 2 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="255" height="255" style="border: solid 1px black"></canvas>
+    <script>
+      var canvasKita; //variabel refer ke canvas yang kita buat
+      var ctx; //variabel refer ke konteks yang kita buat
+
+      // Pembuatan fungsi gambartitik untuk membuat titik berwarna sesuai dengan parameter yang
+      // diberikan pada fungsi tersebut
+      function gambartitik(imageDataTemp, x, y, r, g, b) {
+        var index;
+        index = 4 * (x + y * canvasKita.width);
+        imageDataTemp.data[index] = r;
+        imageDataTemp.data[index + 1] = g;
+        imageDataTemp.data[index + 2] = b;
+        imageDataTemp.data[index + 3] = 255;
+      }
+
+      const dda_line = (imageData, x1, y1, x2, y2, r, g, b) => {
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+        console.log(dx, dy);
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+          if (x2 > x1) {
+            let y = y1;
+            for (let x = x1; x < x2; x++) {
+              y = y + dy / Math.abs(dx);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          } else {
+            let y = y1;
+            for (let x = x1; x > x2; x--) {
+              y = y + dy / Math.abs(dx);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          }
+        } else {
+          if (y2 > y1) {
+            let x = x1;
+            for (let y = y1; y < y2; y++) {
+              x = x + dx / Math.abs(dy);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          } else {
+            let x = x1;
+            for (let y = y1; y > y2; y--) {
+              x = x + dx / Math.abs(dy);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          }
+        }
+      };
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      var j = 0;
+      //   Kotak Gradasi
+      for (var i = 0; i <= 255; i++) {
+        dda_line(imageDataSaya, 0, 0 + i, 255, 0 + i, j + i, 0, 0);
+        if (i == 30 || i == 60 || i == 90 || i == 120 || i == 150 || i == 180 || i == 210 || i == 250) {
+          j += 10;
+        }
+      }
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

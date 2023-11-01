@@ -1,0 +1,96 @@
+<!-- Yehezkiel David Setiawan / 2172003 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pertemuan 2 -2172003</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="800" height="800" style="border: solid 1px black"></canvas>
+    <script type="module">
+      var canvasKita; //variabel refer ke canvas yang kita buat
+      var ctx; //variabel refer ke konteks yang kita buat
+
+      var kotakHighlight = false;
+
+   
+
+      const dda_line = (imageData, x1, y1, x2, y2, r, g, b) => {
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+          if (x2 > x1) {
+            let y = y1;
+            for (let x = x1; x < x2; x++) {
+              y = y + dy / Math.abs(dx);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          } else {
+            let y = y1;
+            for (let x = x1; x > x2; x--) {
+              y = y + dy / Math.abs(dx);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          }
+        } else {
+          if (y2 > y1) {
+            let x = x1;
+            for (let y = y1; y < y2; y++) {
+              x = x + dx / Math.abs(dy);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          } else {
+            let x = x1;
+            for (let y = y1; y > y2; y--) {
+              x = x + dx / Math.abs(dy);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          }
+        }
+      };
+
+      canvasKita = document.querySelector('#canvas1');
+      ctx = canvasKita.getContext('2d');
+      var imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+      function gambarKotak() {
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height);
+
+        if (kotakHighlight) {
+          for (var i = 0; i <= 250; i++) {
+            dda_line(imageDataSaya, 75, 75 + i, 325, 75 + i, 0, 0, 0); // Hitam
+          }
+        } else {
+          for (var i = 0; i <= 250; i++) {
+            dda_line(imageDataSaya, 75, 75 + i, 325, 75 + i, 255, 0, 0); // Merah
+          }
+          for (var i = 0; i <= 200; i++) {
+            dda_line(imageDataSaya, 100, 100 + i, 300, 100 + i, 0, 0, 0); // Hitam
+          }
+        }
+
+        ctx.putImageData(imageDataSaya, 0, 0);
+      }
+
+      gambarKotak();
+
+      canvasKita.addEventListener('click', function (event) {
+        // Mengambil koordinat klik mouse
+        var x = event.clientX - canvasKita.getBoundingClientRect().left;
+        var y = event.clientY - canvasKita.getBoundingClientRect().top;
+
+        // Cek apakah klik berada di sekitar kotak
+        if (x >= 75 && x <= 325 && y >= 75 && y <= 275) {
+          // Toggle status highlight
+          kotakHighlight = !kotakHighlight;
+
+          // Gambar ulang kotak dengan atau tanpa highlight
+          gambarKotak();
+        }
+      });
+    </script>
+  </body>
+</html>

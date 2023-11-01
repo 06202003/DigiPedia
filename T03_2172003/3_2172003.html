@@ -1,0 +1,82 @@
+<!-- 2172003 / Yehezkiel David Setiawan -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 3 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="600" height="600" style="border: solid 1px black"></canvas>
+    <script>
+      var canvasKita; //variabel refer ke canvas yang kita buat
+      var ctx; //variabel refer ke konteks yang kita buat
+      var dataKoordinat = [];
+      // Pembuatan fungsi gambartitik untuk membuat titik berwarna sesuai dengan parameter yang
+      // diberikan pada fungsi tersebut
+      function gambartitik(imageDataTemp, x, y, r, g, b) {
+        var index;
+        index = 4 * (Math.ceil(x) + Math.ceil(y) * canvasKita.width);
+        imageDataTemp.data[index] = r;
+        imageDataTemp.data[index + 1] = g;
+        imageDataTemp.data[index + 2] = b;
+        imageDataTemp.data[index + 3] = 255;
+      }
+
+      const dda_line = (imageData, x1, y1, x2, y2, r, g, b) => {
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+        console.log(dx, dy);
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+          if (x2 > x1) {
+            let y = y1;
+            for (let x = x1; x < x2; x++) {
+              y = y + dy / Math.abs(dx);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          } else {
+            let y = y1;
+            for (let x = x1; x > x2; x--) {
+              y = y + dy / Math.abs(dx);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          }
+        } else {
+          if (y2 > y1) {
+            let x = x1;
+            for (let y = y1; y < y2; y++) {
+              x = x + dx / Math.abs(dy);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          } else {
+            let x = x1;
+            for (let y = y1; y > y2; y--) {
+              x = x + dx / Math.abs(dy);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          }
+        }
+      };
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+      var imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+      canvasKita.addEventListener('click', function (ev) {
+        var rect = canvasKita.getBoundingClientRect();
+
+        x = ev.clientX - rect.left;
+        y = ev.clientY - rect.top;
+        console.log(x, '+', y);
+
+        // Menggambar garis antara dua titik yang diklik
+        dda_line(imageDataSaya, dataKoordinat[0], dataKoordinat[1], x, y, 0, 0, 0);
+        ctx.putImageData(imageDataSaya, 0, 0);
+        dataKoordinat = [x, y];
+      });
+    </script>
+  </body>
+</html>

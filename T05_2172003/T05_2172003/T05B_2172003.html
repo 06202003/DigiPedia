@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 2 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="1200" height="1200" style="border: solid 1px black"></canvas>
+    <script type="module">
+      import * as library from './main.js';
+      var canvasKita;
+      var ctx;
+      var frameCount = 0;
+      var interval = 500;
+      var i = 0;
+      var isi;
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      var point_array = [
+        { x: 100, y: 550 },
+        { x: 100, y: 450 },
+        { x: 1100, y: 450 },
+        { x: 1100, y: 550 },
+      ];
+
+      function animate() {
+        frameCount++;
+        if (i >= 1100) {
+          i = 0;
+        }
+
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height);
+
+        ctx.font = '24px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'black';
+        ctx.fillText('Loading . . . ', 175, 425);
+
+        ctx.font = '42px monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'black';
+        ctx.fillText(i / 10 + '%', 1050, 585);
+
+        let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+        library.polygon(imageDataSaya, point_array, 1, 0, 0);
+
+        library.dda_line(imageDataSaya, 100 + i, 450, 100 + i, 550, 1, 0, 0);
+
+        library.floodFillStack(imageDataSaya, canvasKita, 101, 500, { r: 0, g: 0, b: 0 }, { r: 142, g: 114, b: 143 });
+        library.floodFillStack(imageDataSaya, canvasKita, 1099, 500, { r: 0, g: 0, b: 0 }, { r: 255, g: 114, b: 143 });
+
+        i = i + 10;
+        ctx.putImageData(imageDataSaya, 0, 0);
+
+        setTimeout(function () {
+          requestAnimationFrame(animate);
+        }, interval);
+      }
+
+      animate();
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

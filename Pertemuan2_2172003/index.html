@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pertemuan 1</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="canvas1" width="800" height="800" style="border: solid 1px black"></canvas>
+    <script>
+      var canvasKita; //variabel refer ke canvas yang kita buat
+      var ctx; //variabel refer ke konteks yang kita buat
+
+      // Pembuatan fungsi gambartitik untuk membuat titik berwarna sesuai dengan parameter yang
+      // diberikan pada fungsi tersebut
+      function gambartitik(imageDataTemp, x, y, r, g, b) {
+        var index;
+        index = 4 * (x + y * canvasKita.width);
+        imageDataTemp.data[index] = r;
+        imageDataTemp.data[index + 1] = g;
+        imageDataTemp.data[index + 2] = b;
+        imageDataTemp.data[index + 3] = 255;
+      }
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+      var imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+      canvasKita.addEventListener('click', function (ev) {
+        var rect = canvasKita.getBoundingClientRect();
+
+        let x = ev.clientX - rect.left;
+        let y = ev.clientY - rect.top;
+        console.log(x + ', ' + y);
+
+        gambartitik(imageDataSaya, x, y, 255, 0, 0);
+        ctx.putImageData(imageDataSaya, 0, 0);
+      });
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

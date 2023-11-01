@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pertemuan 5 - 2172003 Yehezkiel</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="600" height="600" style="border: solid 1px black"></canvas>
+    <script type="module">
+      import * as library from './main.js';
+      import * as transform from './transform.js';
+      var canvasKita;
+      var ctx;
+      var frameCount = 0;
+      var interval = 500;
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      var point_array = [
+        { x: 50, y: 50 },
+        { x: 100, y: 100 },
+        { x: 150, y: 50 },
+      ];
+
+      // var point_array2 = [];
+      // for (let i = 0; i < point_array.length; i++) {
+      //   var temp = transform.translasi(point_array[i], { x: 100, y: 0 });
+      //   point_array2.push(temp);
+      // }
+
+      // var point_array3 = [];
+      // for (let i = 0; i < point_array.length; i++) {
+      //   var temp = transform.translasi(point_array[i], { x: 50, y: 50 });
+      //   point_array3.push(temp);
+      // }
+
+      // var point_array4 = [];
+      // for (let i = 0; i < point_array.length; i++) {
+      //   var temp = transform.scale(point_array[i], { x: 2, y: 2 });
+      //   point_array4.push(temp);
+      // }
+
+      // var point_array5 = [];
+      // for (let i = 0; i < point_array.length; i++) {
+      //   var temp = transform.rotate(point_array[i], { x: 0.5, y: 0.5 });
+      //   point_array5.push(temp);
+      //   console.log(point_array5);
+      // }
+
+      // var point_array6 = [];
+      // for (let i = 0; i < point_array.length; i++) {
+      //   var temp = transform.rotate_fp(point_array[i], { x: 50, y: 100 }, Math.PI / 8);
+      //   point_array6.push(temp);
+      //   console.log(point_array6);
+      // }
+
+      // var point_array7 = [];
+      // for (let i = 0; i < point_array.length; i++) {
+      //   var temp = transform.scale_fp(point_array[i], { x: 50, y: 100 }, { x: 0.5, y: 0.5 });
+      //   point_array7.push(temp);
+      //   console.log(point_array7);
+      // }
+
+      var point_array2 = transform.translasi_array(point_array, { x: 100, y: 100 });
+      var point_array3 = transform.scale_array(point_array, { x: 100, y: 100 }, { x: 2, y: 2 });
+      var point_array4 = transform.rotate_array(point_array, { x: 0, y: 150 }, Math.PI / 7);
+
+      library.polygon(imageDataSaya, point_array, 0, 255, 0);
+      library.polygon(imageDataSaya, point_array2, 0, 255, 0);
+      library.polygon(imageDataSaya, point_array3, 0, 255, 0);
+      library.polygon(imageDataSaya, point_array4, 0, 255, 0);
+      // library.polygon(imageDataSaya, point_array5, 0, 255, 0);
+      // library.polygon(imageDataSaya, point_array6, 0, 255, 0);
+      // library.polygon(imageDataSaya, point_array7, 0, 255, 0);
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 3 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="1000" height="400" style="border: solid 1px black"></canvas>
+    <script type="module">
+      import * as library from './main.js';
+      import * as transform from './graph.js';
+
+      var canvasKita;
+      var ctx;
+      var imageDataSaya;
+
+      canvasKita = document.querySelector('#canvas1');
+      ctx = canvasKita.getContext('2d');
+      imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+      for (let y = 0; y < canvasKita.height; y++) {
+        const red = 255;
+        const green = (y / canvasKita.height) * 100;
+        const blue = 100;
+
+        for (let x = 0; x < canvasKita.width; x++) {
+          library.gambartitik(imageDataSaya, x, y, red, green, blue);
+        }
+      }
+
+      const mountain1 = [
+        { x: 100, y: 300 },
+        { x: 300, y: 100 },
+        { x: 500, y: 300 },
+      ];
+
+      const mountain2 = [
+        { x: 200, y: 300 },
+        { x: 400, y: 100 },
+        { x: 600, y: 300 },
+      ];
+
+      const translation = { x: 150, y: 0 };
+      const translatedMountain2 = transform.translasi_array(mountain2, translation);
+
+      library.polygon(imageDataSaya, mountain1, 139, 69, 19); // Coklat
+
+      library.polygon(imageDataSaya, translatedMountain2, 139, 69, 19); // Coklat
+
+      const lake = [
+        { x: 0, y: 400 },
+        { x: 1000, y: 400 },
+        { x: 1000, y: 300 },
+        { x: 0, y: 300 },
+      ];
+      library.polygon(imageDataSaya, lake, 0, 0, 128);
+
+      const cloud1 = { x: 200, y: 50 };
+      const cloud2 = transform.translasi(cloud1, { x: 100, y: 20 });
+
+      library.gambarlingkaran(imageDataSaya, cloud1.x, cloud1.y, 30, 255, 255, 255); // Putih
+      library.gambarlingkaran(imageDataSaya, cloud2.x, cloud2.y, 30, 255, 255, 255); // Putih
+
+      library.gambarlingkaran(imageDataSaya, 700, 100, 60, 255, 69, 0); // Jingga tua
+      library.floodFillStack(imageDataSaya, canvasKita, 710, 110, { r: 0, g: 0, b: 0 }, { r: 255, g: 100, b: 0 }); // Merah tua
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

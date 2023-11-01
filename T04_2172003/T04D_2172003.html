@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 4 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="1200" height="1200" style="border: solid 1px black"></canvas>
+    <script type="module">
+      import * as library from './main.js';
+      var canvasKita;
+      var ctx;
+      var i = 60;
+      var x, y;
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      canvasKita.addEventListener('click', function (ev) {
+        if (i >= 180) {
+          i = 0;
+        }
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height); // Clear the canvas at the beginning of each frame
+        let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+        var rect = canvasKita.getBoundingClientRect();
+        var x = ev.clientX - rect.left;
+        y = ev.clientY - rect.top;
+        console.log(x, '+', y);
+
+        // Menggambar garis antara dua titik yang diklik
+        library.lingkaranPolar(imageDataSaya, x, y, i, 0, 0, 0);
+
+        ctx.putImageData(imageDataSaya, 0, 0);
+
+        console.log(i);
+        i = i + 30;
+      });
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

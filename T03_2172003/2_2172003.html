@@ -1,0 +1,91 @@
+<!-- 2172003 / Yehezkiel David Setiawan -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 2 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="600" height="600" style="border: solid 1px black"></canvas>
+    <script>
+      var canvasKita;
+      var ctx;
+
+      function gambartitik(imageDataTemp, x, y, r, g, b) {
+        var index;
+        index = 4 * (x + y * canvasKita.width);
+        imageDataTemp.data[index] = r;
+        imageDataTemp.data[index + 1] = g;
+        imageDataTemp.data[index + 2] = b;
+        imageDataTemp.data[index + 3] = 255;
+      }
+
+      const dda_line = (imageData, x1, y1, x2, y2, r, g, b) => {
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+          if (x2 > x1) {
+            let y = y1;
+            for (let x = x1; x < x2; x++) {
+              y = y + dy / Math.abs(dx);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          } else {
+            let y = y1;
+            for (let x = x1; x > x2; x--) {
+              y = y + dy / Math.abs(dx);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          }
+        } else {
+          if (y2 > y1) {
+            let x = x1;
+            for (let y = y1; y < y2; y++) {
+              x = x + dx / Math.abs(dy);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          } else {
+            let x = x1;
+            for (let y = y1; y > y2; y--) {
+              x = x + dx / Math.abs(dy);
+              gambartitik(imageData, x, y, r, g, b);
+            }
+          }
+        }
+      };
+
+      canvasKita = document.querySelector('#canvas1');
+      ctx = canvasKita.getContext('2d');
+
+      function animate() {
+        frameCount++;
+
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height); // Clear the canvas at the beginning of each frame
+
+        let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+        for (var i = 0; i <= 600; i++) {
+          const min = 150;
+          const max = 600;
+          const randomPanjang = Math.floor(Math.random() * (max - min + 1)) + min;
+
+          var warna1 = Math.floor(Math.random() * 255) + 1;
+          var warna2 = Math.floor(Math.random() * 255) + 1;
+          var warna3 = Math.floor(Math.random() * 255) + 1;
+
+          dda_line(imageDataSaya, i, 600, i, randomPanjang, warna1, warna2, warna3);
+        }
+
+        ctx.putImageData(imageDataSaya, 0, 0);
+
+        setTimeout(function () {
+          requestAnimationFrame(animate);
+        }, interval);
+      }
+
+      animate();
+    </script>
+  </body>
+</html>

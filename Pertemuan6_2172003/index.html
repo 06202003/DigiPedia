@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pertemuan 5 - 2172003 Yehezkiel</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="600" height="600" style="border: solid 1px black"></canvas>
+    <script type="module">
+      import * as library from './main.js';
+      import * as transform from './transform.js';
+      import * as transform_matrix from './transformasi_matrix.js';
+
+      var canvasKita;
+      var ctx;
+      var frameCount = 0;
+      var interval = 500;
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      var point_array = [
+        { x: 50, y: 50 },
+        { x: 100, y: 100 },
+        { x: 150, y: 50 },
+      ];
+
+      var kotak = [
+        { x: 50, y: 50 },
+        { x: 50, y: 200 },
+        { x: 300, y: 200 },
+        { x: 300, y: 50 },
+      ];
+
+      var segidelapan = [
+        { x: 175, y: 75 },
+        { x: 210, y: 100 },
+        { x: 225, y: 125 },
+        { x: 210, y: 150 },
+        { x: 175, y: 175 },
+        { x: 135, y: 150 },
+        { x: 125, y: 125 },
+        { x: 135, y: 100  },
+      ];
+
+      library.polygon(imageDataSaya, kotak, 0, 255, 0);
+      library.polygon(imageDataSaya, segidelapan, 255, 0, 0);
+
+      // var m = transform_matrix.rotation_fp(150, 150, Math.PI / 7);
+      // var p_array2 = transform_matrix.transform_array(point_array, m);
+
+      // library.polygon(imageDataSaya, p_array2, 255, 0, 0);
+
+      // m = transform_matrix.multiplyMatrix(m, m);
+      // var p_array2 = transform_matrix.transform_array(point_array, m);
+
+      // library.polygon(imageDataSaya, p_array2, 255, 0, 0);
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+    </script>
+  </body>
+</html>

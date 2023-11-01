@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soal 1 - 2172003 - Yehezkiel David</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="1200" height="600" style="border: 1px solid black"></canvas>
+    <script type="module">
+      import * as library from './main.js';
+
+      var xc = 100;
+      var yc = 100;
+      var radius = 50;
+      var r = 255;
+      var g = 0;
+      var b = 0;
+      var dx = 5;
+      var dy = 5;
+
+      var canvasKita;
+      var ctx;
+      var imageDataSaya;
+
+      canvasKita = document.querySelector('#canvas1');
+      ctx = canvasKita.getContext('2d');
+
+      function animate() {
+        xc += dx;
+        yc += dy;
+
+        if (xc + radius >= canvasKita.width || xc - radius <= 0) {
+          dx = -dx;
+        }
+        if (yc + radius >= canvasKita.height || yc - radius <= 0) {
+          dy = -dy;
+        }
+
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height);
+
+        let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+        library.lingkaranPolar(imageDataSaya, xc, yc, radius, r, g, b);
+        library.lingkaranPolar(imageDataSaya, 100, yc, radius, r, g, b);
+        library.lingkaranPolar(imageDataSaya, xc, 100, radius, r, g, b);
+
+        library.floodFillStack(imageDataSaya, canvasKita, xc, yc, { r: 0, g: 0, b: 0 }, { r: 255, g: 0, b: 0 });
+        library.floodFillStack(imageDataSaya, canvasKita, 100, yc, { r: 0, g: 0, b: 0 }, { r: 0, g: 255, b: 0 });
+        library.floodFillStack(imageDataSaya, canvasKita, xc, 100, { r: 0, g: 0, b: 0 }, { r: 0, g: 0, b: 255 });
+        ctx.putImageData(imageDataSaya, 0, 0);
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    </script>
+  </body>
+</html>

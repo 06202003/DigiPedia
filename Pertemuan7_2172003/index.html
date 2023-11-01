@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pertemuan 7 - 2172003 Yehezkiel</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="600" height="600" style="border: solid 1px black"></canvas>
+    <script type="module">
+      import * as library from './main.js';
+      import * as transform from './transform.js';
+      import * as transform_matrix from './transformasi_matrix.js';
+
+      var canvasKita;
+      var ctx;
+      var timer = 0;
+      var geser = 0;
+      var sudut = 0;
+
+      canvasKita = document.querySelector('#canvas1'); //mengambil canvas dengan id canvas1
+      ctx = canvasKita.getContext('2d'); //membuat konteks dua dimensi ke canvas1
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height); //membuat konteks untuk mengambil data gambar sesuai ukuran canvas kita
+
+      var point_array = [
+        { x: 50, y: 50 },
+        { x: 100, y: 100 },
+        { x: 150, y: 50 },
+      ];
+
+      library.polygon(imageDataSaya, point_array, 0, 255, 0);
+
+      var m = transform_matrix.createTranslation(10, 0);
+      var p2 = transform_matrix.transform_array(point_array, m);
+      library.polygon(imageDataSaya, p2, 0, 255, 0);
+
+      const draw = () => {
+        ctx.clearRect(0, 0, canvasKita.width, canvasKita.height);
+        imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+        library.dda_line(imageDataSaya, 0, 100, canvasKita.width, 100, 255, 0, 0);
+
+        var t = transform_matrix.createTranslation(geser, 0);
+        var r = transform_matrix.rotation_fp(point_array[0].x, point_array[0].y, sudut);
+        m = transform_matrix.multiplyMatrix(t, r);
+        geser += 10;
+        sudut += 0.1;
+        p2 = transform_matrix.transform_array(point_array, m);
+        library.polygon(imageDataSaya, p2, 0, 255, 0);
+        ctx.putImageData(imageDataSaya, 0, 0);
+
+        // for (var i = 0; i < imageDataSaya.data.length; i++) {
+        //   imageDataSaya.data[i] = 0;
+        // }
+
+        requestAnimationFrame(draw);
+      };
+
+      draw();
+      // setInterval(draw, 10);
+    </script>
+  </body>
+</html>
