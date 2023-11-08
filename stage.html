@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigiPedia</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  </head>
+  <body>
+    <section>
+      <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">DigiPedia</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="type.html">Types Data</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="stage.html">Stage Data</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="memory.html">Memory Data</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </section>
+    <section>
+      <div class="container">
+        <h1 class="text-center mb-4">Digimon Stage</h1>
+        <div class="row d-flex justify-content-center align-items-center">
+          <div class="col-md-6">
+            <h2>Sebaran Data Stage</h2>
+            <div class="data"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="row d-flex align-items-center justify-content-center">
+              <div class="col-md-2 text-end">
+                <canvas id="canvasNumbers" width="50" height="500"></canvas>
+              </div>
+              <div class="col-md-8 text-left"><canvas id="canvas1" width="500" height="500" style="border: solid 1px black"></canvas></div>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+              <div class="col-md-2 text-end">
+                <canvas id="kosong" width="50" height="75"></canvas>
+              </div>
+              <div class="col-md-8 text-left"><canvas id="canvas2" width="500" height="75"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script type="module">
+      import * as library from './main.js';
+      var canvasKita;
+
+      var ctx;
+
+      canvasKita = document.querySelector('#canvas1');
+
+      ctx = canvasKita.getContext('2d');
+
+      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
+
+      ctx.putImageData(imageDataSaya, 0, 0);
+
+      const csvFilePath = 'data/DigiDB_digimonlist.csv';
+      const stages = []; // Array to store "Stage" values
+      const types = []; // Array to store "Type" values
+      const memoryValues = []; // Array to store "Memory" values
+      const stageCounts = {};
+
+      async function fetchData() {
+        try {
+          const response = await fetch(csvFilePath);
+          const csvData = await response.text();
+
+          const rows = csvData.split('\n');
+          const headers = rows[0].split(',');
+
+          const stageColumnIndex = headers.indexOf('Stage');
+          const typeColumnIndex = headers.indexOf('Type');
+          const memoryColumnIndex = headers.indexOf('Memory');
+
+          if (stageColumnIndex === -1 || typeColumnIndex === -1 || memoryColumnIndex === -1) {
+            console.error('One or more specified columns not found in the CSV.');
+            return;
+          }
+
+          for (let i = 1; i < rows.length; i++) {
+            const rowData = rows[i].split(',');
+            stages.push(rowData[stageColumnIndex]);
+            types.push(rowData[typeColumnIndex]);
+            memoryValues.push(rowData[memoryColumnIndex]);
+          }
+
+          // // Now you have separate arrays for each column
+          // console.log('Stages:', stages);
+          // console.log('Types:', types);
+          // console.log('Memory Values:', memoryValues);
+
+          // Count the occurrences of each stage
+          stages.forEach((stage) => {
+            stageCounts[stage] = (stageCounts[stage] || 0) + 1;
+          });
+        } catch (error) {
+          console.error('Error fetching or parsing the CSV:', error);
+        }
+      }
+
+      fetchData().then(() => {
+        // Setelah data di-fetch dan diproses
+
+        const dataDiv = document.querySelector('.data');
+        let rowNumber = 1;
+        const stageOrder = ['Ultra', 'Mega', 'Ultimate', 'Armor', 'Champion', 'Rookie', 'In-Training', 'Baby'];
+        const sortedStageCounts = stageOrder.map((stage) => ({ stage, count: stageCounts[stage] || 0 }));
+        console.log(sortedStageCounts);
+
+        const tableHTML = `
+        <table class="table" id="stageTable">
+          <thead>
+            <tr>
+              <th scope="col">Number</th>
+              <th scope="col">Stage</th>
+              <th scope="col">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+ 
+              ${sortedStageCounts
+                .map(
+                  (stage) => `
+                              <tr>
+            <td>${rowNumber++}</td>
+            <td>${stage.stage}</td>
+            <td>${stage.count}</td>
+          </tr>
+        `
+                )
+                .join('')}
+
+
+          </tbody>
+        </table>
+        `;
+        dataDiv.innerHTML = tableHTML;
+
+        $(document).ready(function () {
+          $('#stageTable').DataTable();
+        });
+
+        library.lingkaranPolar(imageDataSaya, 60, canvasKita.height - sortedStageCounts[0].count * 5 - 40, 10, 0, 0, 255);
+        library.lingkaranPolar(imageDataSaya, 120, canvasKita.height - sortedStageCounts[1].count * 5 - 40, 10, 0, 0, 255);
+        library.lingkaranPolar(imageDataSaya, 180, canvasKita.height - sortedStageCounts[2].count * 5 - 40, 10, 0, 0, 255);
+        library.lingkaranPolar(imageDataSaya, 240, canvasKita.height - sortedStageCounts[3].count * 5 - 40, 10, 0, 0, 255);
+        library.lingkaranPolar(imageDataSaya, 300, canvasKita.height - sortedStageCounts[4].count * 5 - 40, 10, 0, 0, 255);
+        library.lingkaranPolar(imageDataSaya, 360, canvasKita.height - sortedStageCounts[5].count * 5 - 40, 10, 0, 0, 255);
+        library.lingkaranPolar(imageDataSaya, 420, canvasKita.height - sortedStageCounts[6].count * 5 - 40, 10, 0, 0, 255);
+        library.lingkaranPolar(imageDataSaya, 480, canvasKita.height - sortedStageCounts[7].count * 5 - 40, 10, 0, 0, 255);
+
+        const min = 0;
+        const max = 255;
+
+        let grafx = 0;
+
+        for (var i = 0; i < 8; i++) {
+          let red = Math.floor(Math.random() * (max - min + 1)) + min;
+          let green = Math.floor(Math.random() * (max - min + 1)) + min;
+          let blue = Math.floor(Math.random() * (max - min + 1)) + min;
+          library.floodFillStack(imageDataSaya, canvasKita, 61 + grafx, canvasKita.height - sortedStageCounts[i].count * 5 - 40 + 1, { r: 0, g: 0, b: 0 }, { r: red, g: green, b: blue });
+          library.gambartitik(imageDataSaya, 60 + grafx, canvasKita.height - sortedStageCounts[i].count * 5 - 40, red, green, blue);
+          library.lingkaranPolar(imageDataSaya, 60 + grafx, canvasKita.height - sortedStageCounts[i].count * 5 - 40, 10, red, green, blue);
+          grafx += 60;
+        }
+
+        // Loop untuk menghubungkan lingkaran-lingkaran
+        for (let i = 0; i < 7; i++) {
+          const x1 = 60 + i * 60; // Koordinat x lingkaran saat ini
+          const y1 = canvasKita.height - sortedStageCounts[i].count * 5 - 40; // Koordinat y lingkaran saat ini
+          const x2 = 60 + (i + 1) * 60; // Koordinat x lingkaran berikutnya
+          const y2 = canvasKita.height - sortedStageCounts[i + 1].count * 5 - 40; // Koordinat y lingkaran berikutnya
+
+          // Menggunakan library.dda_line untuk menggambar garis
+          library.dda_line(imageDataSaya, x1, y1, x2, y2, 1, 1, 1);
+        }
+
+        // Update canvas dengan gambar baru
+        ctx.putImageData(imageDataSaya, 0, 0);
+      });
+    </script>
+
+    <script>
+      var canvasKitaDua;
+      var canvasNumbers;
+      canvasKitaDua = document.querySelector('#canvas2');
+      canvasNumbers = document.querySelector('#canvasNumbers');
+      var ctx2 = canvasKitaDua.getContext('2d');
+      var ctx3 = canvasNumbers.getContext('2d');
+      const stageOrder = ['Ultra', 'Mega', 'Ultimate', 'Armor', 'Champion', 'Rookie', 'In-Training', 'Baby'];
+      const yStart = 20;
+      const yOffset = 55;
+      let number = 100;
+
+      ctx3.font = '16px Arial';
+      ctx3.fillStyle = 'black';
+      ctx3.textAlign = 'center';
+      for (let i = 0; i < 100; i++) {
+        const x = 35;
+        const y = yStart + i * yOffset;
+        ctx3.fillText(number, x, y);
+        number = number - 10;
+      }
+      for (let i = 0; i < stageOrder.length; i++) {
+        const xas = 60 + i * 60;
+        const yas = 50;
+
+        ctx2.font = '12px Arial'; // Atur jenis font dan ukuran
+        ctx2.fillStyle = 'black'; // Atur warna teks
+        ctx2.textAlign = 'center'; // Posisi teks di tengah
+        ctx2.textBaseline = 'middle'; // Posisi vertikal teks di tengah
+        ctx2.fillText(stageOrder[i], xas, yas);
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  </body>
+</html>

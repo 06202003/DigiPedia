@@ -3,137 +3,102 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Soal 1 - 2172003 - Yehezkiel David</title>
+    <title>DigiPedia</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
   </head>
   <body>
     <section>
-      <div class="row d-flex align-items-center justify-content-center">
-        <div class="col-md-12 text-center"><canvas id="canvas1" width="1000" height="1000" style="border: solid 1px black"></canvas></div>
-        <div class="col-md-12 text-center"><canvas id="canvas2" width="1000" height="200"></canvas></div>
+      <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">DigiPedia</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="type.html">Types Data</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="stage.html">Stage Data</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="memory.html">Memory Data</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row d-flex justify-content-center align-items-center" style="min-height: 80vh">
+          <div class="col-md-6"><img src="img/digimon.jpg" alt="" style="width: 100%; height: auto; max-width: 500px; max-height: 500px" /></div>
+          <div class="col-md-6">
+            <h1>Welcome to DigiPedia</h1>
+            <p style="text-align: justify">
+              Digimon <i>(デジモン)</i>, short for "Digital Monster" <i>(デジタルモンスタ)</i>, are mysterious lifeforms that were discovered in the Computer Network in 1997. They are central to the Digimon franchise. The word "Digimon" is
+              typically invariable in the plural, though there are some cases where the term is pluralized as "Digimons". Digimon include almost all the creatures that reside within a parallel universe called the "Digital World." There are
+              many different species of Digimon, as well as unconfirmed and new generations of Digimon yet to be revealed. The number of Digimon species continuously increases as the Digital World expands each year.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
-    <script type="module">
-      import * as library from './main.js';
-      var canvasKita;
 
-      var ctx;
+    <!-- Wave -->
+    <svg class="wave-top" viewBox="0 0 1200 250" style="background-color: #3994ff">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M0 108.306L50 114.323C100 120.34 200 132.374 300 168.476C400 204.578 500 264.749 600 246.698C700 228.647 800 132.374 900 108.306C1000 84.2382 1100 132.374 1150 156.442L1200 180.51V-8.5451e-06H1150C1100 -8.5451e-06 1000 -8.5451e-06 900 -8.5451e-06C800 -8.5451e-06 700 -8.5451e-06 600 -8.5451e-06C500 -8.5451e-06 400 -8.5451e-06 300 -8.5451e-06C200 -8.5451e-06 100 -8.5451e-06 50 -8.5451e-06H0V108.306Z"
+        fill="white"
+      />
+    </svg>
+    <!-- Wave -->
 
-      canvasKita = document.querySelector('#canvas1');
+    <section style="background-color: #3994ff">
+      <div class="container">
+        <div class="row d-flex justify-content-center align-items-center" style="min-height: 100vh">
+          <div class="col-md-6"><img src="img/egg.png" alt="" style="width: 100%; height: auto; max-width: 500px; max-height: 500px" /></div>
+          <div class="col-md-6">
+            <h1>Characteristic</h1>
+            <p style="text-align: justify">
+              Digimon hatch from eggs called Digi-Eggs <i>(デジタマ)</i>. They age via a process called "Digivolution" which changes their appearance and increases their physical powers. Some Digimon act feral, like wild animals. Most,
+              however, possess intelligence, speech, and personality traits like humans. It was mentioned that, if a partner Digimon were to be separated from their partner, then they would start to become weaker. An example of this is
+              Yolei Inoue's partner, Poromon. When Yolei is away in Kyoto, Poromon begins to feel weaker each day.
+            </p>
+            <p style="text-align: justify">
+              Digimon consist of a DigiCore, a Wire-frame model, and their appearance on top of said model as a texture. As such, there is nothing else other than the wire-frame and texture — for example there is nothing under Angemon's
+              mask other than wire-frame. However, if Angemon's mask were to be ever taken off, its DigiCore would replace its now removed mask with a newly created face.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      ctx = canvasKita.getContext('2d');
-
-      let imageDataSaya = ctx.getImageData(0, 0, canvasKita.width, canvasKita.height);
-
-      ctx.putImageData(imageDataSaya, 0, 0);
-
-      const csvFilePath = 'data/DigiDB_digimonlist.csv';
-      const stages = []; // Array to store "Stage" values
-      const types = []; // Array to store "Type" values
-      const memoryValues = []; // Array to store "Memory" values
-      const stageCounts = {};
-      // const stageOrder = ['Ultra', 'Mega', 'Ultimate', 'Armor', 'Champion', 'Rookie', 'In-Training', 'Baby'];
-
-      async function fetchData() {
-        try {
-          const response = await fetch(csvFilePath);
-          const csvData = await response.text();
-
-          const rows = csvData.split('\n');
-          const headers = rows[0].split(',');
-
-          const stageColumnIndex = headers.indexOf('Stage');
-          const typeColumnIndex = headers.indexOf('Type');
-          const memoryColumnIndex = headers.indexOf('Memory');
-
-          if (stageColumnIndex === -1 || typeColumnIndex === -1 || memoryColumnIndex === -1) {
-            console.error('One or more specified columns not found in the CSV.');
-            return;
-          }
-
-          for (let i = 1; i < rows.length; i++) {
-            const rowData = rows[i].split(',');
-            stages.push(rowData[stageColumnIndex]);
-            types.push(rowData[typeColumnIndex]);
-            memoryValues.push(rowData[memoryColumnIndex]);
-          }
-
-          // // Now you have separate arrays for each column
-          // console.log('Stages:', stages);
-          // console.log('Types:', types);
-          // console.log('Memory Values:', memoryValues);
-
-          // Count the occurrences of each stage
-          stages.forEach((stage) => {
-            stageCounts[stage] = (stageCounts[stage] || 0) + 1;
-          });
-        } catch (error) {
-          console.error('Error fetching or parsing the CSV:', error);
-        }
-      }
-
-      fetchData().then(() => {
-        // Setelah data di-fetch dan diproses
-
-        const stageOrder = ['Ultra', 'Mega', 'Ultimate', 'Armor', 'Champion', 'Rookie', 'In-Training', 'Baby'];
-        const sortedStageCounts = stageOrder.map((stage) => ({ stage, count: stageCounts[stage] || 0 }));
-        console.log(sortedStageCounts);
-        library.lingkaranPolar(imageDataSaya, 100, canvasKita.height - sortedStageCounts[0].count * 10 - 100, 10, 0, 0, 255);
-        library.lingkaranPolar(imageDataSaya, 200, canvasKita.height - sortedStageCounts[1].count * 10 - 100, 10, 0, 0, 255);
-        library.lingkaranPolar(imageDataSaya, 300, canvasKita.height - sortedStageCounts[2].count * 10 - 100, 10, 0, 0, 255);
-        library.lingkaranPolar(imageDataSaya, 400, canvasKita.height - sortedStageCounts[3].count * 10 - 100, 10, 0, 0, 255);
-        library.lingkaranPolar(imageDataSaya, 500, canvasKita.height - sortedStageCounts[4].count * 10 - 100, 10, 0, 0, 255);
-        library.lingkaranPolar(imageDataSaya, 600, canvasKita.height - sortedStageCounts[5].count * 10 - 100, 10, 0, 0, 255);
-        library.lingkaranPolar(imageDataSaya, 700, canvasKita.height - sortedStageCounts[6].count * 10 - 100, 10, 0, 0, 255);
-        library.lingkaranPolar(imageDataSaya, 800, canvasKita.height - sortedStageCounts[7].count * 10 - 100, 10, 0, 0, 255);
-
-        const min = 0;
-        const max = 255;
-
-        let grafx = 0;
-
-        for (var i = 0; i < 8; i++) {
-          let red = Math.floor(Math.random() * (max - min + 1)) + min;
-          let green = Math.floor(Math.random() * (max - min + 1)) + min;
-          let blue = Math.floor(Math.random() * (max - min + 1)) + min;
-          library.floodFillStack(imageDataSaya, canvasKita, 101 + grafx, canvasKita.height - sortedStageCounts[i].count * 10 - 100 + 1, { r: 0, g: 0, b: 0 }, { r: red, g: green, b: blue });
-          library.gambartitik(imageDataSaya, 100 + grafx, canvasKita.height - sortedStageCounts[i].count * 10 - 100, red, green, blue);
-          library.lingkaranPolar(imageDataSaya, 100 + grafx, canvasKita.height - sortedStageCounts[i].count * 10 - 100, 10, red, green, blue);
-          grafx += 100;
-        }
-
-        // Loop untuk menghubungkan lingkaran-lingkaran
-        for (let i = 0; i < 7; i++) {
-          const x1 = 100 + i * 100; // Koordinat x lingkaran saat ini
-          const y1 = canvasKita.height - sortedStageCounts[i].count * 10 - 100; // Koordinat y lingkaran saat ini
-          const x2 = 100 + (i + 1) * 100; // Koordinat x lingkaran berikutnya
-          const y2 = canvasKita.height - sortedStageCounts[i + 1].count * 10 - 100; // Koordinat y lingkaran berikutnya
-
-          // Menggunakan library.dda_line untuk menggambar garis
-          library.dda_line(imageDataSaya, x1, y1, x2, y2, 1, 1, 1);
-        }
-
-        // Update canvas dengan gambar baru
-        ctx.putImageData(imageDataSaya, 0, 0);
-      });
-    </script>
-
+    <script src="anime.min.js"></script>
     <script>
-      var canvasKitaDua;
-      canvasKitaDua = document.querySelector('#canvas2');
-      var ctx2 = canvasKitaDua.getContext('2d');
-      const stageOrder = ['Ultra', 'Mega', 'Ultimate', 'Armor', 'Champion', 'Rookie', 'In-Training', 'Baby'];
+      const wave1 =
+          'M0 108.306L50 114.323C100 120.34 200 132.374 300 168.476C400 204.578 500 264.749 600 246.698C700 228.647 800 132.374 900 108.306C1000 84.2382 1100 132.374 1150 156.442L1200 180.51V0H1150C1100 0 1000 0 900 0C800 0 700 0 600 0C500 0 400 0 300 0C200 0 100 0 50 0H0V108.306Z',
+        wave2 =
+          'M0 250L50 244.048C100 238.095 200 226.19 300 226.19C400 226.19 500 238.095 600 232.143C700 226.19 800 202.381 900 196.429C1000 190.476 1100 202.381 1150 208.333L1200 214.286V0H1150C1100 0 1000 0 900 0C800 0 700 0 600 0C500 0 400 0 300 0C200 0 100 0 50 0H0V250Z',
+        wave3 =
+          'M0 250L50 238.095C100 226.19 200 202.381 300 166.667C400 130.952 500 83.3333 600 101.19C700 119.048 800 202.381 900 214.286C1000 226.19 1100 166.667 1150 136.905L1200 107.143V0H1150C1100 0 1000 0 900 0C800 0 700 0 600 0C500 0 400 0 300 0C200 0 100 0 50 0H0V250Z',
+        wave4 =
+          'M0 125L50 111.111C100 97.2222 200 69.4444 300 97.2222C400 125 500 208.333 600 236.111C700 263.889 800 236.111 900 229.167C1000 222.222 1100 236.111 1150 243.056L1200 250V0H1150C1100 0 1000 0 900 0C800 0 700 0 600 0C500 0 400 0 300 0C200 0 100 0 50 0H0V125Z';
 
-      for (let i = 0; i < stageOrder.length; i++) {
-        const xas = 100 + i * 100;
-        const yas = 50;
-
-        ctx2.font = '16px Arial'; // Atur jenis font dan ukuran
-        ctx2.fillStyle = 'black'; // Atur warna teks
-        ctx2.textAlign = 'center'; // Posisi teks di tengah
-        ctx2.textBaseline = 'middle'; // Posisi vertikal teks di tengah
-        ctx2.fillText(stageOrder[i], xas, yas);
-      }
+      anime({
+        targets: '.wave-top > path',
+        easing: 'linear',
+        duration: 17500,
+        loop: true,
+        d: [{ value: [wave1, wave2] }, { value: wave3 }, { value: wave4 }, { value: wave1 }],
+      });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>

@@ -1,6 +1,6 @@
 export const gambartitik = (imageDataTemp, x, y, r, g, b) => {
   var index;
-  index = 4 * (Math.round(x) + Math.round(y) * 1000);
+  index = 4 * (Math.round(x) + Math.round(y) * 500);
 
   imageDataTemp.data[index] = r;
   imageDataTemp.data[index + 1] = g;
